@@ -12,7 +12,7 @@ using difference_type_t = typename iterator_traits_t<Iterator>::difference_type;
 template <typename Iterator>
 struct is_bidirectional_iterator : std::is_base_of<std::bidirectional_iterator_tag, typename iterator_traits_t<Iterator>::iterator_category> {};
 
-template <typename Iterator, typename Container>
+template <typename Iterator>
 Iterator my_prev(Iterator it, difference_type_t<Iterator> offset = 1) {
     if (offset < 0) {
         throw std::invalid_argument("Offset must be a non-negative number");
@@ -43,7 +43,7 @@ int main() {
     auto it = vec.begin() + 3; 
 
     try {
-        std::cout << "Iterator: " << *my_prev(it, 2, vec) << std::endl;
+        std::cout << "Iterator: " << *my_prev(it, 2) << std::endl;
     } catch (const std::out_of_range& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
