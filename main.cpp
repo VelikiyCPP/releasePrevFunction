@@ -13,7 +13,7 @@ template <typename Iterator>
 struct is_bidirectional_iterator : std::is_base_of<std::bidirectional_iterator_tag, typename iterator_traits_t<Iterator>::iterator_category> {};
 
 template <typename Iterator, typename Container>
-Iterator my_prev(Iterator it, difference_type_t<Iterator> offset, Container& container) {
+Iterator my_prev(Iterator it, difference_type_t<Iterator> offset = 1) {
     if (offset < 0) {
         throw std::invalid_argument("Offset must be a non-negative number");
     }
