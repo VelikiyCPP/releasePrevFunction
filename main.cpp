@@ -13,6 +13,9 @@ template <typename Iterator>
 struct is_bidirectional_iterator : std::is_base_of<std::bidirectional_iterator_tag, typename iterator_traits_t<Iterator>::iterator_category> {};
 
 template <typename Iterator>
+constexpr bool is_bidirectional_iterator_v = is_bidirectional_iterator<Iterator>::value;
+
+template <typename Iterator>
 Iterator my_prev(Iterator it, difference_type_t<Iterator> offset = 1) {
     if (offset < 0) {
         throw std::invalid_argument("Offset must be a non-negative number");
@@ -21,7 +24,7 @@ Iterator my_prev(Iterator it, difference_type_t<Iterator> offset = 1) {
     if constexpr (std::is_copy_constructible_v<Iterator> && std::is_assignable_v<Iterator, Iterator>) {
         Iterator iterator_copy = it;
 
-        if constexpr (is_bidirectional_iterator<Iterator>::value) {
+        if constexpr (is_bidirectional_iterator_v<Iterator>) {
             return iterator_copy - offset;
         }
 
@@ -44,7 +47,7 @@ int main() {
 
     try {
         std::cout << "Iterator: " << *my_prev(it, 2) << std::endl;
-    } catch (const std::out_of_range& e) {
+    } catch (const std::invalid_argument& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
 
